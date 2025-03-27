@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amni</title>
-<style>
-    body {
+    <style>
+        body {
             background-color: pink;
             text-align: center;
-        }
-
-        #gambar {
-            display: none;
+            overflow: hidden;
         }
 
         .container {
@@ -23,72 +20,174 @@
             bottom: -50px;
         }
 
-        .gambar{
+     
+        .gambar {
             display: none;
             width: 10%;
             height: 10%;
-            border-radius:10px ;
-            
+            border-radius: 10px;
         }
 
-        .button {
+        .gambar1, .gambar2, .gambar3, .gambar4, .gambar5 {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            width: 150px;
+            margin: 10px;
+        }
+
+        .button, .button2, #aii {
             font-size: 24px;
             padding: 15px 25px;
             border-radius: 10px;
-            color: pink;
-            background-color: white;
             border: none;
             cursor: pointer;
             margin-top: 20px;
             font-family: Georgia, 'Times New Roman', Times, serif;
         }
 
+        .button {
+            color: pink;
+            background-color: white;
+        }
+
+        .button2 {
+            display: none;
+            color: pink;
+            background-color: white;
+            position: relative;
+            bottom: -50px;
+        }
+
         #aii {
             display: none;
-            font-size: 24px;
-            padding: 15px 25px;
-            border-radius: 10px;
             color: white;
             background-color: red;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
         }
 
         h1 {
             font-size: 45px;
-        }</style>
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 1;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
+
+    <audio id="musik" autoplay loop>
+        <source src="october.mp3" type="audio/mpeg">
+    </audio>
+    
 
     <button class="button" onclick="ai()">Who You Are?</button>
 
     <div class="container">
-    <img class="gambar" id="sweet" src="sweety.jpeg">
-    <h1 id="ia"></h1>
-    <button id="aii" onclick="aiii()">Click ^_^</button>
+        <img class="gambar" id="sweet" src="sweety.jpeg">
+        <h1 id="ia"></h1>
+        <button id="aii" onclick="aiii()">Click ^_^</button>
     </div>
 
+    <button id="iaa" class="button2" onclick="startEmojiRain()">Alooo Click Ini </button>
+
+    <img class="gambar" src="n.jpeg" style="width:8%; height:8%; position: relative; bottom: 600px; left: 100px;">
+<img class="gambar" src="a.jpeg" style="width: 8%; height: 8%; position: relative; left: 1600px; bottom: 950px;">
+<img class="gambar" src="i.jpeg" style="width: 8%; height: 8%; position: relative; bottom: 700px; left: 200px; ">
+<img class="gambar" src="l.jpeg" style="width: 8%; height: 8%; position: relative; bottom: 1000px; left: 1700px;">
+<img class="gambar" src="aa.jpeg" style="width: 8%; height: 8%; position: relative; bottom: 900px; left: 1500px;">
+<img class="gambar" src="ii.jpeg" style="width: 8%; height: 8%; position: relative; bottom: 1000px; left: 100px;">
+
+
+
+
     <script>
-        function ai(){
+        function ai() {
             var img = document.getElementById("sweet");
             var txt = document.getElementById("ia");
             var bttn = document.getElementById("aii");
+            var bttn1 = document.getElementById("iaa");
 
             if (img.style.display === "block") {
                 img.style.display = "none";
                 txt.innerHTML = "";
                 bttn.style.display = "none";
+                bttn1.style.display = "none";
             } else {
                 img.style.display = "block";
                 txt.innerHTML = "You Are Minee Hehehe ❤️";
                 bttn.style.display = "inline-block";
+                bttn1.style.display = "none";
             }
         }
 
         function aiii() {
+            var bttn1 = document.getElementById("iaa");
+
+            if (bttn1.style.display === "none") {
+                bttn1.style.display = "inline-block";
+            } else {
+                bttn1.style.display = "none";
+            }
+
             alert("I Love You! 💖");
         }
+
+        function startEmojiRain() {
+
+            let gambarList = document.querySelectorAll(".gambar");
+            
+            gambarList.forEach((gambar, index) => {
+                setTimeout(() => {
+                    gambar.style.display = "block";
+                    setTimeout(() => {
+                        gambar.style.opacity = "1";
+                    }, 100);
+                }, index * 1300);
+            });
+
+            setInterval(() => {
+                createEmojiBatch();
+            }, 1000); 
+        }
+
+        function createEmojiBatch() {
+            for (let i = 0; i < 10; i++) {
+                createEmoji();
+            }
+        }
+
+        function createEmoji() {
+            const emojiArray = ["💖", "💕", "💌	", "✨", "🎉", "🍨", "💒", "🦄"];
+
+            const emoji = document.createElement("div");
+            emoji.classList.add("emoji");
+            emoji.innerText = emojiArray[Math.floor(Math.random() * emojiArray.length)];
+            document.body.appendChild(emoji);
+
+            emoji.style.left = Math.random() * window.innerWidth + "px";
+            emoji.style.top = "-10vh"; 
+
+            let duration = Math.random() * 2 + 3;
+            emoji.style.animationDuration = duration + "s";
+
+            setTimeout(() => emoji.remove(), duration * 1000);
+        }
+
+        document.addEventListener("click", function() {
+        let musik = document.getElementById("musik");
+        musik.play().catch(error => {
+            console.log("Autoplay diblokir oleh browser:", error);
+        });
+    }, { once: true });
+
     </script>
 
 </body>
